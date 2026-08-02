@@ -1,0 +1,1 @@
+single line long data to test how the cpp engine and java backend handle extended character counts without any line breaks or interruptions in the stream.
