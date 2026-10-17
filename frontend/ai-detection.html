@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Detection — Plagify</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script>(function(){var t=localStorage.getItem("plagify-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo"><span class="logo-mark">P</span><span class="logo-text">PLAGIFY</span></a>
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="ai-detection.html" class="nav-link active">AI Detection</a>
+        <a href="plagiarism.html" class="nav-link">Plagiarism</a>
+      </nav>
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-outline" id="signInBtn">Sign in</a>
+        <div class="user-menu" id="userMenu" hidden>
+          <button type="button" class="user-chip" id="userChip"><span class="user-avatar" id="userAvatar">U</span><span class="user-meta"><span class="user-name" id="userName">Account</span><span class="user-email" id="userEmail"></span></span></button>
+          <div class="user-dropdown" id="userDropdown" hidden>
+            <button type="button" class="user-dropdown-item" id="profileBtn">Profile / Settings</button>
+            <button type="button" class="user-dropdown-item danger" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container tool-page">
+    <a href="index.html" class="back-link">← Back to home</a>
+    <h1>Check AI Detection</h1>
+    <p class="tool-intro">Paste text or upload a document. Detection is probabilistic — not proof.</p>
+
+    <div class="checker-card">
+      <div class="checker-tabs">
+        <button class="tab-btn active" data-tab="text" type="button">Paste Text</button>
+        <button class="tab-btn" data-tab="file" type="button">Upload File</button>
+      </div>
+      <div class="tab-panel active" data-panel="text">
+        <textarea id="aiText" placeholder="Paste content to analyze (minimum ~50 characters)..."></textarea>
+        <div class="counter-row"><span><strong id="aiWordCount">0</strong> words</span></div>
+      </div>
+      <div class="tab-panel" data-panel="file">
+        <div class="dropzone" id="aiDropzone">
+          <p class="dropzone-title">Drop TXT, PDF, or DOCX</p>
+          <p class="dropzone-sub">Max 25MB</p>
+          <button class="btn btn-outline" type="button" id="aiBrowseBtn">Browse Files</button>
+          <input type="file" id="aiFileInput" hidden accept=".txt,.pdf,.docx,.doc" />
+        </div>
+        <div class="file-selected" id="aiFileSelected" hidden>
+          <div class="file-chip"><span id="aiFileName"></span>
+            <button type="button" id="aiRemoveFile">&times;</button>
+          </div>
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-accent btn-large" type="button" id="aiAnalyzeBtn">Analyze for AI</button>
+        <button class="btn btn-ghost btn-large" type="button" id="aiResetBtn">Reset</button>
+      </div>
+      <div class="progress-wrap" id="aiLoading" hidden>
+        <div class="progress-track"><div class="progress-fill" style="width:60%"></div></div>
+        <p class="progress-label">Running detection…</p>
+      </div>
+      <p class="error-banner" id="aiError" hidden></p>
+      <div class="result-card" id="aiResult" hidden>
+        <div class="result-summary">
+          <div class="result-ring">
+            <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+              <circle class="ring-fill" id="aiRing" cx="60" cy="60" r="52"></circle></svg>
+            <div class="ring-label"><strong id="aiPct">0%</strong><span>AI score</span></div>
+          </div>
+          <div class="result-metrics">
+            <div class="metric"><span class="metric-label">Verdict</span><span class="metric-value" id="aiVerdict">—</span></div>
+            <div class="metric"><span class="metric-label">Confidence</span><span class="metric-value" id="aiConf">—</span></div>
+            <div class="metric"><span class="metric-label">Provider</span><span class="metric-value" id="aiProvider">—</span></div>
+            <div class="metric"><span class="metric-label">Words</span><span class="metric-value" id="aiWords">—</span></div>
+          </div>
+        </div>
+        <p class="disclaimer" id="aiLimitations"></p>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="profileModal" hidden>
+    <div class="modal-card" role="dialog">
+      <div class="modal-header">
+        <h2>Profile / Settings</h2>
+        <button type="button" class="modal-close" id="profileModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="profile-preview">
+          <div class="profile-avatar-wrap">
+            <span class="user-avatar large" id="profileAvatar">U</span>
+            <label class="avatar-upload-btn" for="profilePictureInput" title="Change photo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span class="sr-only">Upload profile picture</span>
+            </label>
+            <input type="file" id="profilePictureInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden />
+          </div>
+          <div>
+            <p class="profile-email" id="profileEmail">—</p>
+            <p class="profile-provider" id="profileProvider">local</p>
+            <div class="profile-photo-actions">
+              <button type="button" class="btn-text-link" id="profilePictureChoose">Change photo</button>
+              <button type="button" class="btn-text-link danger" id="profilePictureRemove" hidden>Remove photo</button>
+            </div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="profileNameInput">Username</label>
+          <input type="text" id="profileNameInput" maxlength="120" />
+        </div>
+        <p class="profile-hint">Username and photo can be updated anytime. JPEG, PNG, WebP or GIF · max ~500 KB.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-accent" id="profileSaveBtn">Save profile</button>
+          <button type="button" class="btn btn-outline" id="profileCancelBtn">Cancel</button>
+        </div>
+        <p class="login-message" id="profileMessage"></p>
+
+        <hr class="profile-divider" />
+        <h3 class="profile-section-title">Change password</h3>
+        <p class="profile-hint">Password cannot be changed directly. Request an OTP sent to your email, then enter the code with your new password.</p>
+        <div class="modal-actions" style="margin-bottom:12px">
+          <button type="button" class="btn btn-outline" id="profileRequestOtpBtn">Send OTP to email</button>
+        </div>
+        <p class="login-message" id="otpMessage"></p>
+        <div id="passwordChangeFields" hidden>
+          <div class="input-group">
+            <label for="profileOtpInput">OTP code</label>
+            <input type="text" id="profileOtpInput" maxlength="12" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code" />
+          </div>
+          <div class="input-group">
+            <label for="profileNewPassword">New password</label>
+            <input type="password" id="profileNewPassword" minlength="6" autocomplete="new-password" placeholder="At least 6 characters" />
+          </div>
+          <div class="input-group">
+            <label for="profileConfirmPassword">Confirm new password</label>
+            <input type="password" id="profileConfirmPassword" minlength="6" autocomplete="new-password" placeholder="Repeat new password" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-accent" id="profileChangePasswordBtn">Update password</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="theme.js"></script>
+  <script src="ai-detection.js"></script>
+</body>
+</html>

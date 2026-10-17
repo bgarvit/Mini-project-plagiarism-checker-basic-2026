@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create account — Plagify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="auth.css" />
+    <script>(function(){var t=localStorage.getItem("plagify-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+    <style>
+      .reg-avatar-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+      .reg-avatar-preview {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--accent, #0d9488);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+        background-size: cover;
+        background-position: center;
+        flex-shrink: 0;
+        border: 2px solid var(--border-color, rgba(0,0,0,0.08));
+      }
+      .reg-avatar-preview.has-photo { color: transparent; }
+      .reg-avatar-actions { display: flex; flex-direction: column; gap: 6px; }
+      .reg-avatar-actions button {
+        font-size: 0.82rem;
+        font-weight: 600;
+        background: none;
+        border: none;
+        color: var(--accent, #0d9488);
+        cursor: pointer;
+        padding: 0;
+        text-align: left;
+        font-family: inherit;
+      }
+      .reg-avatar-actions button.danger { color: #dc2626; }
+      .reg-hint {
+        font-size: 0.78rem;
+        color: var(--text-muted, #5c6560);
+        margin: -6px 0 14px;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-page">
+      <header class="site-header">
+        <div class="header-inner">
+          <a href="index.html" class="logo">
+            <span class="logo-mark">P</span>
+            <span class="logo-text">PLAGIFY</span>
+          </a>
+          <div class="header-actions">
+            <a href="login.html" class="btn btn-outline">Sign in</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle theme">
+              <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+              <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="login-container">
+        <a href="login.html" class="back-link">← Back to sign in</a>
+
+        <div class="login-card">
+          <div class="login-brand">
+            <div class="brand-mark">P</div>
+            <span>PLAGIFY</span>
+          </div>
+
+          <div class="login-heading">
+            <span>NEW ACCOUNT</span>
+            <h1>Create your account</h1>
+            <p>Set a username, optional photo, email, and password. You can update these later in Profile — password changes require an email OTP.</p>
+          </div>
+
+          <form id="registerForm">
+            <div class="input-group">
+              <label for="regUsername">Username</label>
+              <input type="text" id="regUsername" name="username" placeholder="Your display name" required minlength="2" maxlength="120" autocomplete="username" />
+            </div>
+
+            <label class="input-group" style="margin-bottom:6px">Profile picture <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label>
+            <div class="reg-avatar-row">
+              <div class="reg-avatar-preview" id="regAvatarPreview">?</div>
+              <div class="reg-avatar-actions">
+                <button type="button" id="regChoosePhoto">Choose photo</button>
+                <button type="button" class="danger" id="regRemovePhoto" hidden>Remove photo</button>
+              </div>
+              <input type="file" id="regPictureInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden />
+            </div>
+            <p class="reg-hint">JPEG, PNG, WebP or GIF · max about 500 KB</p>
+
+            <div class="input-group">
+              <label for="regEmail">Email address</label>
+              <input type="email" id="regEmail" name="email" placeholder="you@example.com" required autocomplete="email" />
+            </div>
+
+            <div class="input-group">
+              <label for="regPassword">Password</label>
+              <div class="password-box">
+                <input type="password" id="regPassword" name="password" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password" />
+                <button type="button" id="regShowPassword">Show</button>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="regConfirm">Confirm password</label>
+              <div class="password-box">
+                <input type="password" id="regConfirm" name="confirm" placeholder="Repeat password" required minlength="6" autocomplete="new-password" />
+                <button type="button" id="regShowConfirm">Show</button>
+              </div>
+            </div>
+
+            <button type="submit" class="login-button" id="regSubmitBtn">
+              Create account
+              <span>→</span>
+            </button>
+
+            <div class="login-message" id="regMessage"></div>
+          </form>
+
+          <p class="login-footer">
+            Already have an account?
+            <a href="login.html">Sign in</a>
+          </p>
+
+          <div class="secure-login">
+            <span>🔒</span>
+            <p>Your password can only be changed later with an OTP sent to your email</p>
+          </div>
+        </div>
+
+        <p class="login-footer">© 2026 PLAGIFY</p>
+      </div>
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="api.js"></script>
+    <script src="registration.js"></script>
+  </body>
+</html>

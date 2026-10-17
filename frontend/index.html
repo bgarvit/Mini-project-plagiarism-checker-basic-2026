@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plagify — AI Detection &amp; Originality Checker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script>(function(){var t=localStorage.getItem("plagify-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">P</span>
+        <span class="logo-text">PLAGIFY</span>
+      </a>
+      <nav class="main-nav" id="mainNav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="ai-detection.html" class="nav-link">AI Detection</a>
+        <a href="plagiarism.html" class="nav-link">Plagiarism</a>
+      </nav>
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-outline" id="signInBtn">Sign in</a>
+        <div class="user-menu" id="userMenu" hidden>
+          <button type="button" class="user-chip" id="userChip" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" id="userAvatar">U</span>
+            <span class="user-meta">
+              <span class="user-name" id="userName">Account</span>
+              <span class="user-email" id="userEmail"></span>
+            </span>
+            <svg class="user-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="user-dropdown" id="userDropdown" hidden>
+            <button type="button" class="user-dropdown-item" id="profileBtn">Profile / Settings</button>
+            <button type="button" class="user-dropdown-item danger" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <span class="eyebrow">Originality toolkit</span>
+        <h1>Check AI content. Compare against your original.</h1>
+        <p class="hero-sub">
+          Two focused tools: detect likely AI-generated writing, or compare a document
+          strictly against your registered original reference — not the open web.
+        </p>
+      </div>
+    </section>
+
+    <!-- How it works — animated explanation of text matching pipeline -->
+    <section class="how-section" aria-labelledby="how-heading">
+      <div class="container">
+        <div class="section-heading how-heading">
+          <span class="eyebrow">Under the hood</span>
+          <h2 id="how-heading">How similarity checking works</h2>
+          <p class="how-lead">
+            The tool compares your text against stored reference documents using classic
+            text-processing and pattern-matching techniques — not a black box.
+          </p>
+        </div>
+
+        <div class="pipeline" id="howPipeline" role="list">
+          <!-- Step 1 -->
+          <article class="pipe-step" data-step="1" role="listitem">
+            <div class="pipe-visual" aria-hidden="true">
+              <div class="viz-doc viz-doc-in">
+                <span class="viz-line"></span>
+                <span class="viz-line short"></span>
+                <span class="viz-line"></span>
+                <span class="viz-line med"></span>
+              </div>
+            </div>
+            <div class="pipe-body">
+              <span class="pipe-num">01</span>
+              <h3>Text input</h3>
+              <p>You paste or upload a document. The system accepts plain text and common formats for comparison against your registered originals.</p>
+            </div>
+          </article>
+
+          <div class="pipe-connector" aria-hidden="true"><span></span></div>
+
+          <!-- Step 2 -->
+          <article class="pipe-step" data-step="2" role="listitem">
+            <div class="pipe-visual" aria-hidden="true">
+              <div class="viz-tokens">
+                <span class="tok">the</span>
+                <span class="tok">quick</span>
+                <span class="tok">brown</span>
+                <span class="tok">fox</span>
+                <span class="tok">jumps</span>
+              </div>
+            </div>
+            <div class="pipe-body">
+              <span class="pipe-num">02</span>
+              <h3>Text processing</h3>
+              <p>Normalization lowercases text and collapses whitespace. Tokenization splits content into words so algorithms can work on clean units.</p>
+            </div>
+          </article>
+
+          <div class="pipe-connector" aria-hidden="true"><span></span></div>
+
+          <!-- Step 3 -->
+          <article class="pipe-step" data-step="3" role="listitem">
+            <div class="pipe-visual" aria-hidden="true">
+              <div class="viz-ngrams">
+                <span class="ng">quick brown</span>
+                <span class="ng">brown fox</span>
+                <span class="ng">fox jumps</span>
+              </div>
+            </div>
+            <div class="pipe-body">
+              <span class="pipe-num">03</span>
+              <h3>Pattern matching</h3>
+              <p>Word shingles and character n-grams turn sequences into patterns. Overlapping phrases become the basis for detecting shared wording.</p>
+            </div>
+          </article>
+
+          <div class="pipe-connector" aria-hidden="true"><span></span></div>
+
+          <!-- Step 4 -->
+          <article class="pipe-step" data-step="4" role="listitem">
+            <div class="pipe-visual" aria-hidden="true">
+              <div class="viz-compare">
+                <div class="viz-doc small">You</div>
+                <div class="viz-vs">↔</div>
+                <div class="viz-store">
+                  <span class="store-item"></span>
+                  <span class="store-item"></span>
+                  <span class="store-item"></span>
+                </div>
+              </div>
+            </div>
+            <div class="pipe-body">
+              <span class="pipe-num">04</span>
+              <h3>Compare with stored docs</h3>
+              <p>Your patterns are matched only against registered reference documents — not the open web. Shared n-grams and substrings are located.</p>
+            </div>
+          </article>
+
+          <div class="pipe-connector" aria-hidden="true"><span></span></div>
+
+          <!-- Step 5 -->
+          <article class="pipe-step" data-step="5" role="listitem">
+            <div class="pipe-visual" aria-hidden="true">
+              <div class="viz-score">
+                <svg viewBox="0 0 36 36" class="score-ring">
+                  <path class="ring-bg" d="M18 2.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 1 1 0-31"/>
+                  <path class="ring-fill" d="M18 2.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 1 1 0-31"/>
+                </svg>
+                <span class="score-label">%</span>
+              </div>
+            </div>
+            <div class="pipe-body">
+              <span class="pipe-num">05</span>
+              <h3>Similarity algorithms</h3>
+              <p>Scores use measures such as Jaccard similarity on n-gram sets and longest common substring ratio. Higher overlap means more shared phrasing — for review, not automatic proof of misconduct.</p>
+            </div>
+          </article>
+        </div>
+
+        <p class="how-footnote">
+          Concepts introduced: text normalization, tokenization, n-gram / shingle pattern matching,
+          set-based similarity (Jaccard), and substring matching. Results are indicators for human review.
+        </p>
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <div class="container">
+        <div class="feature-choice-grid">
+          <a href="ai-detection.html" class="choice-card">
+            <div class="choice-icon ai-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a4 4 0 014 4v1h1a3 3 0 010 6h-1v1a4 4 0 01-8 0v-1H7a3 3 0 010-6h1V6a4 4 0 014-4z"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/></svg>
+            </div>
+            <h2>Check AI Detection</h2>
+            <p>
+              Upload TXT, PDF, or DOCX — or paste text — to estimate how likely the
+              content was generated by AI. Results include a probability score and limitations.
+            </p>
+            <span class="choice-cta">Open AI Detector →</span>
+          </a>
+
+          <a href="plagiarism.html" class="choice-card">
+            <div class="choice-icon plag-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
+            </div>
+            <h2>Check Plagiarism</h2>
+            <p>
+              Register an original reference document, then compare a second document
+              against it only. Similarity scores and matched passages — no internet search.
+            </p>
+            <span class="choice-cta">Open Plagiarism Checker →</span>
+          </a>
+        </div>
+
+        <div class="privacy-banner">
+          <strong>Privacy:</strong> Submitted comparison documents are processed temporarily
+          and are not stored. Only your registered original reference is saved (Supabase or local DB).
+          AI detection does not permanently store your text.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="profileModal" hidden>
+    <div class="modal-card" role="dialog">
+      <div class="modal-header">
+        <h2>Profile / Settings</h2>
+        <button type="button" class="modal-close" id="profileModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="profile-preview">
+          <div class="profile-avatar-wrap">
+            <span class="user-avatar large" id="profileAvatar">U</span>
+            <label class="avatar-upload-btn" for="profilePictureInput" title="Change photo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span class="sr-only">Upload profile picture</span>
+            </label>
+            <input type="file" id="profilePictureInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden />
+          </div>
+          <div>
+            <p class="profile-email" id="profileEmail">—</p>
+            <p class="profile-provider" id="profileProvider">local</p>
+            <div class="profile-photo-actions">
+              <button type="button" class="btn-text-link" id="profilePictureChoose">Change photo</button>
+              <button type="button" class="btn-text-link danger" id="profilePictureRemove" hidden>Remove photo</button>
+            </div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="profileNameInput">Username</label>
+          <input type="text" id="profileNameInput" maxlength="120" />
+        </div>
+        <p class="profile-hint">Username and photo can be updated anytime. JPEG, PNG, WebP or GIF · max ~500 KB.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-accent" id="profileSaveBtn">Save profile</button>
+          <button type="button" class="btn btn-outline" id="profileCancelBtn">Cancel</button>
+        </div>
+        <p class="login-message" id="profileMessage"></p>
+
+        <hr class="profile-divider" />
+        <h3 class="profile-section-title">Change password</h3>
+        <p class="profile-hint">Password cannot be changed directly. Request an OTP sent to your email, then enter the code with your new password.</p>
+        <div class="modal-actions" style="margin-bottom:12px">
+          <button type="button" class="btn btn-outline" id="profileRequestOtpBtn">Send OTP to email</button>
+        </div>
+        <p class="login-message" id="otpMessage"></p>
+        <div id="passwordChangeFields" hidden>
+          <div class="input-group">
+            <label for="profileOtpInput">OTP code</label>
+            <input type="text" id="profileOtpInput" maxlength="12" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code" />
+          </div>
+          <div class="input-group">
+            <label for="profileNewPassword">New password</label>
+            <input type="password" id="profileNewPassword" minlength="6" autocomplete="new-password" placeholder="At least 6 characters" />
+          </div>
+          <div class="input-group">
+            <label for="profileConfirmPassword">Confirm new password</label>
+            <input type="password" id="profileConfirmPassword" minlength="6" autocomplete="new-password" placeholder="Repeat new password" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-accent" id="profileChangePasswordBtn">Update password</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Plagify. Similarity ≠ internet-wide plagiarism proof.</p>
+    </div>
+  </footer>
+
+  <script src="api.js"></script>
+  <script src="theme.js"></script>
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const mainNav = document.getElementById("mainNav");
+    if (menuToggle && mainNav) menuToggle.addEventListener("click", () => mainNav.classList.toggle("open"));
+
+    /* Animated how-it-works pipeline */
+    (function () {
+      const pipeline = document.getElementById("howPipeline");
+      if (!pipeline) return;
+
+      const steps = Array.from(pipeline.querySelectorAll(".pipe-step"));
+      const connectors = Array.from(pipeline.querySelectorAll(".pipe-connector"));
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function reset() {
+        steps.forEach((s) => s.classList.remove("is-active", "is-done"));
+        connectors.forEach((c) => c.classList.remove("is-flowing"));
+        pipeline.classList.remove("is-animating");
+        const doc = pipeline.querySelector(".viz-doc-in");
+        if (doc) doc.classList.remove("is-pulse");
+      }
+
+      function runCycle() {
+        reset();
+        if (reduced) {
+          steps.forEach((s) => s.classList.add("is-active", "is-done"));
+          return;
+        }
+        pipeline.classList.add("is-animating");
+        let i = 0;
+
+        function next() {
+          if (i > 0) {
+            steps[i - 1].classList.remove("is-active");
+            steps[i - 1].classList.add("is-done");
+            if (connectors[i - 1]) connectors[i - 1].classList.add("is-flowing");
+          }
+          if (i >= steps.length) {
+            // hold final state, then loop
+            setTimeout(runCycle, 3200);
+            return;
+          }
+          steps[i].classList.add("is-active");
+          if (i === 0) {
+            const doc = steps[0].querySelector(".viz-doc-in");
+            if (doc) doc.classList.add("is-pulse");
+          }
+          i += 1;
+          setTimeout(next, 1600);
+        }
+        next();
+      }
+
+      // Start when section is in view
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            runCycle();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.25 }
+      );
+      observer.observe(pipeline);
+    })();
+  </script>
+</body>
+</html>
