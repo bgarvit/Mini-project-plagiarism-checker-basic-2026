@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PLAGIFY AI Detection - Analyze text for AI-generated content probability using multiple detection providers">
+  <title>AI Detection — PLAGIFY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function(){var t=localStorage.getItem("plagify-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();
+  </script>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="index.html" class="hw-logo" aria-label="PLAGIFY Home">
+        <span class="hw-logo-mark"><i class="bi bi-shield-check"></i></span>
+        <span class="hw-logo-text">PLAGI<span class="dot">FY</span></span>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <ul class="nav-hw">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="ai-detection.html" class="nav-link active">AI Detection</a></li>
+          <li><a href="plagiarism.html" class="nav-link">Plagiarism Check</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-outline" id="signInBtn">Sign in</a>
+        <div class="user-menu" id="userMenu" hidden>
+          <button type="button" class="user-chip" id="userChip" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" id="userAvatar">U</span>
+            <span class="user-meta">
+              <span class="user-name" id="userName">Account</span>
+              <span class="user-email" id="userEmail"></span>
+            </span>
+            <svg class="user-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="user-dropdown" id="userDropdown" hidden>
+            <button type="button" class="user-dropdown-item" id="profileBtn">Profile / Settings</button>
+            <button type="button" class="user-dropdown-item danger" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="tool-page">
+    <div class="container">
+      <!-- Back to home button - fixed top-left -->
+<a href="index.html" class="back-to-home" aria-label="Back to home">
+  <i class="bi bi-arrow-left"></i> Back to home
+</a>
+
+<div class="tool-header" data-aos="fade-up">
+        <h1>AI Content Detection</h1>
+        <p class="tool-intro">Analyze text or documents to estimate AI-generated content probability. Multiple providers (lmscan, GPTZero, Sapling) with clear confidence scores and limitations disclosure. Requires sign-in.</p>
+      </div>
+
+      <!-- Auth Gate -->
+      <div id="aiAuthGate" class="auth-gate" hidden data-aos="fade-up">
+        <i class="bi bi-cpu" style="font-size: 3rem; margin-bottom: 20px; color: var(--clr-text-light);"></i>
+        <h2>Sign in required</h2>
+        <p>Access AI detection by signing in to your PLAGIFY account.</p>
+        <a href="login.html" class="btn btn-primary btn-lg">Sign in to continue</a>
+        <p style="margin-top: 16px; font-size: 0.9rem; color: var(--clr-text-muted);">Don't have an account? <a href="registration.html" style="color: var(--clr-primary); font-weight: 600;">Create one</a></p>
+      </div>
+
+      <!-- Main Workspace -->
+      <div id="aiWorkspace" hidden>
+        <section class="checker-card" data-aos="fade-up">
+          <div class="checker-tabs" role="tablist" aria-label="Input method">
+            <button class="tab-btn active" data-tab="text" role="tab" aria-selected="true" type="button">
+              <i class="bi bi-file-text"></i> Paste Text
+            </button>
+            <button class="tab-btn" data-tab="file" role="tab" aria-selected="false" type="button">
+              <i class="bi bi-file-earmark-arrow-up"></i> Upload File
+            </button>
+          </div>
+
+          <!-- Text Input Panel -->
+          <div class="tab-panel active" data-panel="text" role="tabpanel">
+            <textarea id="aiText" class="input-text" placeholder="Paste content to analyze (minimum ~50 characters)..." aria-label="Text to analyze for AI content"></textarea>
+            <div class="counter-row" style="margin-top: 12px;">
+              <span><strong id="aiWordCount">0</strong> words</span>
+              <span class="min-note">Minimum 50 characters</span>
+            </div>
+          </div>
+
+          <!-- File Upload Panel -->
+          <div class="tab-panel" data-panel="file" role="tabpanel">
+            <div class="dropzone" id="aiDropzone">
+              <div class="dropzone-icon">
+                <i class="bi bi-file-earmark-arrow-up" style="font-size: 3rem;"></i>
+              </div>
+              <p class="dropzone-title">Drop TXT, PDF, or DOCX</p>
+              <p class="dropzone-sub">Max 25MB · Text will be extracted automatically</p>
+              <button class="btn btn-outline" type="button" id="aiBrowseBtn">
+                <i class="bi bi-folder2-open"></i> Browse Files
+              </button>
+              <input type="file" id="aiFileInput" hidden accept=".txt,.pdf,.docx,.doc">
+            </div>
+            <div class="file-selected" id="aiFileSelected" hidden>
+              <div class="file-chip">
+                <i class="bi bi-file-earmark-text"></i>
+                <span id="aiFileName"></span>
+                <button type="button" id="aiRemoveFile" aria-label="Remove file">&times;</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="btn btn-primary btn-lg" type="button" id="aiAnalyzeBtn" style="flex: 1;">
+              <i class="bi bi-search"></i> Analyze for AI
+            </button>
+            <button class="btn btn-outline btn-lg" type="button" id="aiResetBtn">
+              <i class="bi bi-arrow-clockwise"></i> Reset
+            </button>
+          </div>
+
+          <div class="progress-wrap" id="aiLoading" hidden>
+            <div class="progress-track"><div class="progress-fill" style="width: 0%"></div></div>
+            <p class="progress-label">Running AI detection…</p>
+          </div>
+          <p class="error-banner" id="aiError" hidden></p>
+
+          <!-- Results Card -->
+          <div class="result-card" id="aiResult" hidden data-aos="fade-up">
+            <div class="result-ring-wrap">
+              <div class="result-ring">
+                <svg viewBox="0 0 140 140">
+                  <circle class="ring-bg" cx="70" cy="70" r="62"></circle>
+                  <circle class="ring-fill" id="aiRing" cx="70" cy="70" r="62"></circle>
+                </svg>
+                <div class="ring-label">
+                  <strong id="aiPct">0%</strong>
+                  <span>AI Probability</span>
+                </div>
+              </div>
+            </div>
+            <div class="result-metrics">
+              <div class="metric">
+                <span class="metric-label">Verdict</span>
+                <span class="metric-value" id="aiVerdict" style="text-transform: capitalize;">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Confidence</span>
+                <span class="metric-value" id="aiConf" style="text-transform: capitalize;">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Provider</span>
+                <span class="metric-value" id="aiProvider">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Word Count</span>
+                <span class="metric-value" id="aiWords">—</span>
+              </div>
+            </div>
+            <p class="disclaimer" id="aiLimitations"></p>
+            <div style="margin-top: 20px; padding: 16px; background: var(--clr-bg); border-radius: var(--radius-md); border: 1px solid var(--clr-border);">
+              <h4 style="font-size: 0.9rem; margin-bottom: 8px; color: var(--clr-text);">How to interpret results</h4>
+              <ul style="font-size: 0.85rem; color: var(--clr-text-muted); line-height: 1.8; padding-left: 20px;">
+                <li><strong>Likely AI</strong> (≥65%): Text shows patterns typical of AI generation</li>
+                <li><strong>Mixed / Uncertain</strong> (40-64%): Inconclusive — may be human-edited AI or formal human writing</li>
+                <li><strong>Likely Human</strong> (<40%): Text shows human-like variation and unpredictability</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Info Section -->
+        <section class="checker-card" data-aos="fade-up" data-aos-delay="100" style="margin-top: 24px;">
+          <h3 style="font-size: 1.1rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;"><i class="bi bi-info-circle" style="color: var(--clr-primary);"></i> How It Works</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+            <div style="padding: 16px; background: var(--clr-bg); border-radius: var(--radius-md); border: 1px solid var(--clr-border);">
+              <h4 style="font-size: 0.9rem; margin-bottom: 8px; color: var(--clr-primary);">Multi-Provider Detection</h4>
+              <p style="font-size: 0.85rem; color: var(--clr-text-muted);">Automatically uses the best available provider: lmscan (local, offline) → GPTZero API → Sapling API → Built-in heuristic</p>
+            </div>
+            <div style="padding: 16px; background: var(--clr-bg); border-radius: var(--radius-md); border: 1px solid var(--clr-border);">
+              <h4 style="font-size: 0.9rem; margin-bottom: 8px; color: var(--clr-secondary);">Statistical Analysis</h4>
+              <p style="font-size: 0.85rem; color: var(--clr-text-muted);">Built-in heuristic analyzes sentence length uniformity, vocabulary diversity, AI-typical phrases, and transition word frequency</p>
+            </div>
+            <div style="padding: 16px; background: var(--clr-bg); border-radius: var(--radius-md); border: 1px solid var(--clr-border);">
+              <h4 style="font-size: 0.9rem; margin-bottom: 8px; color: var(--clr-accent);">Limitations Acknowledged</h4>
+              <p style="font-size: 0.85rem; color: var(--clr-text-muted);">Results include explicit limitations disclosure. AI detection is probabilistic — false positives and negatives occur, especially with formal, edited, or non-native writing</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Profile Modal -->
+  <div class="modal-overlay" id="profileModal" hidden role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="profileModalTitle">Profile / Settings</h2>
+        <button type="button" class="modal-close" id="profileModalClose" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="profile-preview">
+          <div class="profile-avatar-wrap">
+            <span class="user-avatar large" id="profileAvatar">U</span>
+            <label class="avatar-upload-btn" for="profilePictureInput" title="Change photo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span class="sr-only">Upload profile picture</span>
+            </label>
+            <input type="file" id="profilePictureInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+          </div>
+          <div>
+            <p class="profile-email" id="profileEmail">—</p>
+            <p class="profile-provider" id="profileProvider">Signed in with Email</p>
+            <div class="profile-photo-actions">
+              <button type="button" class="btn-text-link" id="profilePictureChoose">Change photo</button>
+              <button type="button" class="btn-text-link danger" id="profilePictureRemove" hidden>Remove photo</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="profileNameInput">Full name</label>
+          <input type="text" id="profileNameInput" maxlength="120" placeholder="Your display name">
+        </div>
+        <div class="input-group">
+          <label for="profilePhoneInput">Phone number</label>
+          <input type="tel" id="profilePhoneInput" maxlength="15" placeholder="10-digit mobile number">
+        </div>
+        <div class="input-group">
+          <label for="profileInstitutionInput">Institution / College</label>
+          <input type="text" id="profileInstitutionInput" maxlength="200" placeholder="e.g. GL Bajaj Institute">
+        </div>
+        <div class="input-group">
+          <label for="profileRoleInput">I am a</label>
+          <select id="profileRoleInput">
+            <option value="">Select role</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher / Faculty</option>
+            <option value="researcher">Researcher</option>
+            <option value="professional">Working Professional</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <p class="profile-hint" id="profileHint">Complete any missing details (especially after Google sign-in). Photo: JPEG, PNG, WebP or GIF.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary" id="profileSaveBtn">Save profile</button>
+          <button type="button" class="btn btn-outline" id="profileCancelBtn">Cancel</button>
+        </div>
+        <p class="login-message" id="profileMessage"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top" tabindex="0">
+    <svg viewBox="0 0 52 52"><circle class="progress-bg" cx="26" cy="26" r="23" fill="none" stroke-width="3"></circle><circle class="progress-ring" cx="26" cy="26" r="23" fill="none" stroke-width="3" stroke-linecap="round"></circle></svg>
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="api.js"></script>
+  <script src="theme.js"></script>
+  <script src="script.js"></script>
+  <script src="ai-detection.js"></script>
+</body>
+</html>

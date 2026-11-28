@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — PLAGIFY</title>
+  <meta name="description" content="Sign in to PLAGIFY - Advanced plagiarism detection and AI content analysis platform">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function(){var t=localStorage.getItem("plagify-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();
+  </script>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="index.html" class="hw-logo" aria-label="PLAGIFY Home">
+        <span class="hw-logo-mark"><i class="bi bi-shield-check"></i></span>
+        <span class="hw-logo-text">PLAGI<span class="dot">FY</span></span>
+      </a>
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-page">
+    <div class="container auth-container">
+      <a href="index.html" class="auth-back-link" aria-label="Back to home">
+        <i class="bi bi-arrow-left"></i> Back to PLAGIFY
+      </a>
+
+      <div class="auth-wrapper">
+        <!-- Left side - Brand/Illustration -->
+        <div class="auth-illustration" data-aos="fade-right">
+          <div class="illustration-content">
+            <div class="illustration-badge">
+              <i class="bi bi-shield-check"></i>
+              <span>Secure & Private</span>
+            </div>
+            <h2>Welcome back to <span class="brand-highlight">PLAGIFY</span></h2>
+            <p>Your trusted platform for plagiarism detection and AI content analysis. Compare documents with precision using TF-IDF, Cosine Similarity, and multi-layer Jaccard algorithms.</p>
+            
+            <div class="illustration-features">
+              <div class="illustration-feature">
+                <div class="feature-icon"><i class="bi bi-patch-check-fill"></i></div>
+                <div>
+                  <strong>Private Comparison</strong>
+                  <span>Documents compared only against your registered originals</span>
+                </div>
+              </div>
+              <div class="illustration-feature">
+                <div class="feature-icon"><i class="bi bi-cpu-fill"></i></div>
+                <div>
+                  <strong>AI Detection</strong>
+                  <span>Multi-provider AI content analysis with confidence scores</span>
+                </div>
+              </div>
+              <div class="illustration-feature">
+                <div class="feature-icon"><i class="bi bi-shield-lock-fill"></i></div>
+                <div>
+                  <strong>Zero Retention</strong>
+                  <span>Submitted documents processed in memory only</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="illustration-visual" aria-hidden="true">
+              <svg class="auth-illustration-svg" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet">
+                <!-- Background circle -->
+                <circle cx="160" cy="160" r="140" fill="none" stroke="var(--clr-primary)" stroke-width="2" stroke-dasharray="8 8" opacity="0.2"/>
+                
+                <!-- Document icons orbiting -->
+                <g class="orbit-group">
+                  <g class="orbit-doc" style="--angle: 0deg;">
+                    <rect x="280" y="150" width="40" height="50" rx="4" fill="var(--clr-primary-light)" stroke="var(--clr-primary)" stroke-width="2"/>
+                    <line x1="290" y1="165" x2="310" y2="165" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="290" y1="180" x2="305" y2="180" stroke="var(--clr-primary)" stroke-width="2" stroke-linecap="round"/>
+                  </g>
+                  <g class="orbit-doc" style="--angle: 120deg;">
+                    <rect x="20" y="150" width="40" height="50" rx="4" fill="var(--clr-secondary-light)" stroke="var(--clr-secondary)" stroke-width="2"/>
+                    <line x1="30" y1="165" x2="50" y2="165" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="30" y1="180" x2="45" y2="180" stroke="var(--clr-secondary)" stroke-width="2" stroke-linecap="round"/>
+                  </g>
+                  <g class="orbit-doc" style="--angle: 240deg;">
+                    <rect x="140" y="20" width="40" height="50" rx="4" fill="rgba(14, 165, 233, 0.14)" stroke="#0ea5e9" stroke-width="2"/>
+                    <line x1="150" y1="35" x2="170" y2="35" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="150" y1="50" x2="165" y2="50" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+                  </g>
+                </g>
+                
+                <!-- Center shield -->
+                <g class="center-shield">
+                  <path d="M160 50 L230 90 L230 190 L160 260 L90 190 L90 90 Z" fill="var(--clr-primary-light)" stroke="var(--clr-primary)" stroke-width="2"/>
+                  <path d="M160 85 L160 190 M125 140 L195 140" stroke="var(--clr-primary)" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="160" cy="160" r="50" fill="none" stroke="var(--clr-primary)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/>
+                </g>
+                
+                <!-- Floating particles -->
+                <g class="particles">
+                  <circle cx="80" cy="80" r="3" fill="var(--clr-primary)" opacity="0.6"/>
+                  <circle cx="280" cy="80" r="2" fill="var(--clr-secondary)" opacity="0.6"/>
+                  <circle cx="50" cy="240" r="2" fill="#0ea5e9" opacity="0.6"/>
+                  <circle cx="300" cy="240" r="3" fill="var(--clr-primary)" opacity="0.4"/>
+                  <circle cx="160" cy="30" r="2" fill="var(--clr-secondary)" opacity="0.5"/>
+                  <circle cx="160" cy="290" r="2" fill="#0ea5e9" opacity="0.5"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side - Login Form -->
+        <div class="auth-form-container" data-aos="fade-left">
+          <div class="auth-card">
+            <div class="auth-brand">
+              <div class="brand-mark">P</div>
+              <span>PLAGIFY</span>
+            </div>
+
+            <div class="auth-heading">
+              <span class="eyebrow" style="justify-content: center;"><i class="bi bi-box-arrow-in-right"></i> Welcome Back</span>
+              <h1>Sign in to your account</h1>
+              <p>Access your plagiarism and AI detection workspace</p>
+            </div>
+
+            <form id="loginForm" novalidate>
+              <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" aria-describedby="emailHint">
+                <span id="emailHint" class="input-hint">We'll never share your email</span>
+              </div>
+
+              <div class="input-group">
+                <label for="password">Password</label>
+                <div class="password-box">
+                  <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password" aria-describedby="passwordHint">
+                  <button type="button" class="password-toggle" id="showPassword" aria-label="Toggle password visibility">
+                    <i class="bi bi-eye"></i>
+                    <span class="toggle-text">Show</span>
+                  </button>
+                </div>
+                <span id="passwordHint" class="input-hint">Forgot it? <a href="forgot-password.html" id="forgotPasswordInline">Reset password</a></span>
+              </div>
+
+              <div class="auth-options">
+                <label class="remember">
+                  <input type="checkbox" id="remember" name="remember">
+                  <span class="checkmark"></span>
+                  <span>Remember me</span>
+                </label>
+                <a href="forgot-password.html" class="forgot-link" id="forgotPassword">Forgot password?</a>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg auth-submit" id="loginSubmitBtn">
+                <span class="btn-text">Sign In</span>
+                <span class="btn-loading" hidden><span class="spinner spinner-sm"></span> Signing in…</span>
+                <i class="bi bi-arrow-right"></i>
+              </button>
+
+              <div class="login-message" id="loginMessage" aria-live="polite"></div>
+            </form>
+
+            <div class="auth-divider">
+              <span>or continue with</span>
+            </div>
+
+            <div class="oauth-buttons">
+              <button type="button" class="btn btn-google" id="googleSignInBtn" aria-label="Sign in with Google">
+                <svg class="google-icon" width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                  <path fill="none" d="M0 0h48v48H0z"/>
+                </svg>
+                <span class="google-btn-text">Sign in with Google</span>
+              </button>
+            </div>
+
+            <div class="auth-footer">
+              <p>Don't have an account? <a href="registration.html">Create one</a></p>
+            </div>
+
+            <div class="auth-secure">
+              <i class="bi bi-shield-check"></i>
+              <p>Secure authentication · JWT sessions · Encrypted passwords</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="api.js"></script>
+  <script src="theme.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

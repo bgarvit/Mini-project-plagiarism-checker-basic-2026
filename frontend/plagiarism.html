@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PLAGIFY Plagiarism Checker - Compare documents against your registered original using TF-IDF, Cosine Similarity, and Jaccard analysis">
+  <title>Plagiarism Checker — PLAGIFY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function(){var t=localStorage.getItem("plagify-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();
+  </script>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="index.html" class="hw-logo" aria-label="PLAGIFY Home">
+        <span class="hw-logo-mark"><i class="bi bi-shield-check"></i></span>
+        <span class="hw-logo-text">PLAGI<span class="dot">FY</span></span>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <ul class="nav-hw">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="ai-detection.html" class="nav-link">AI Detection</a></li>
+          <li><a href="plagiarism.html" class="nav-link active">Plagiarism Check</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-outline" id="signInBtn">Sign in</a>
+        <div class="user-menu" id="userMenu" hidden>
+          <button type="button" class="user-chip" id="userChip" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" id="userAvatar">U</span>
+            <span class="user-meta">
+              <span class="user-name" id="userName">Account</span>
+              <span class="user-email" id="userEmail"></span>
+            </span>
+            <svg class="user-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="user-dropdown" id="userDropdown" hidden>
+            <button type="button" class="user-dropdown-item" id="profileBtn">Profile / Settings</button>
+            <button type="button" class="user-dropdown-item danger" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="tool-page">
+    <div class="container">
+      <!-- Back to home button - fixed top-left -->
+<a href="index.html" class="back-to-home" aria-label="Back to home">
+  <i class="bi bi-arrow-left"></i> Back to home
+</a>
+
+<div class="tool-header" data-aos="fade-up">
+        <h1>Plagiarism Checker</h1>
+        <p class="tool-intro">Compare a document against your registered original reference only. Powered by TF-IDF, Cosine Similarity, and multi-layer Jaccard analysis. Requires sign-in.</p>
+      </div>
+
+      <!-- Auth Gate -->
+      <div id="authGate" class="auth-gate" hidden data-aos="fade-up">
+        <i class="bi bi-shield-lock" style="font-size: 3rem; margin-bottom: 20px; color: var(--clr-text-light);"></i>
+        <h2>Sign in required</h2>
+        <p>Register an original document and run comparisons by signing in to your PLAGIFY account.</p>
+        <a href="login.html" class="btn btn-primary btn-lg">Sign in to continue</a>
+        <p style="margin-top: 16px; font-size: 0.9rem; color: var(--clr-text-muted);">Don't have an account? <a href="registration.html" style="color: var(--clr-primary); font-weight: 600;">Create one</a></p>
+      </div>
+
+      <!-- Main Workspace -->
+      <div id="plagWorkspace" hidden>
+        <!-- Original Document Section -->
+        <section class="checker-card checker-card-spaced" data-aos="fade-up">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+            <div>
+              <h2 style="font-size: 1.25rem; margin-bottom: 4px;">Original Reference Document</h2>
+              <p class="muted" style="font-size: 0.9rem;">Upload your reference document. This will be used as the baseline for all comparisons.</p>
+            </div>
+            <div class="action-row" style="margin-top: 0;">
+              <button class="btn btn-outline" type="button" id="origViewDbBtn">
+                <i class="bi bi-eye"></i> View Saved
+              </button>
+            </div>
+          </div>
+
+          <div id="origStatus" class="status-box muted">Checking registration…</div>
+
+          <div class="dropzone" id="origDropzone">
+            <div class="dropzone-icon">
+              <i class="bi bi-cloud-upload" style="font-size: 3rem;"></i>
+            </div>
+            <p class="dropzone-title">Upload Original Document</p>
+            <p class="dropzone-sub">TXT, PDF, DOCX · Saved to database automatically</p>
+            <button class="btn btn-primary" type="button" id="origUploadBtn">
+              <i class="bi bi-cloud-upload"></i> Choose File
+            </button>
+            <input type="file" id="origFileInput" hidden accept=".txt,.pdf,.docx,.doc">
+          </div>
+
+          <div class="file-selected" id="origFileSelected" hidden>
+            <div class="file-chip">
+              <i class="bi bi-file-earmark-text"></i>
+              <span id="origFileName"></span>
+              <button type="button" id="origRemoveFile" aria-label="Remove file">&times;</button>
+            </div>
+          </div>
+
+          <div class="action-row" style="margin-top: 16px;">
+            <button class="btn btn-outline" type="button" id="origReplaceBtn" hidden>
+              <i class="bi bi-cloud-upload"></i> Upload New Original
+            </button>
+            <button class="btn btn-ghost" type="button" id="origDeleteBtn" hidden>
+              <i class="bi bi-trash"></i> Delete Original
+            </button>
+          </div>
+
+          <div class="progress-wrap" id="origLoading" hidden>
+            <div class="progress-track"><div class="progress-fill" style="width: 0%"></div></div>
+            <p class="progress-label">Saving original to database…</p>
+          </div>
+          <p class="error-banner" id="origError" hidden></p>
+        </section>
+
+        <!-- Saved Files Modal -->
+        <div class="modal-overlay" id="savedFilesModal" hidden role="dialog" aria-modal="true" aria-labelledby="savedFilesTitle">
+          <div class="modal-card" style="max-width: 600px;">
+            <div class="modal-header">
+              <h2 id="savedFilesTitle">Saved Original Documents</h2>
+              <button type="button" class="modal-close" id="savedFilesClose" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p class="muted" id="savedFilesSummary">Loading…</p>
+              <div id="savedFilesList" class="saved-files-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparison Document Section -->
+        <section class="checker-card" data-aos="fade-up" data-aos-delay="100">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+            <div>
+              <h2 style="font-size: 1.25rem; margin-bottom: 4px;">Document to Compare</h2>
+              <p class="muted" style="font-size: 0.9rem;">Upload a document to check against your registered original. This document is not saved after analysis.</p>
+            </div>
+          </div>
+
+          <div class="dropzone" id="cmpDropzone">
+            <div class="dropzone-icon">
+              <i class="bi bi-file-earmark-arrow-up" style="font-size: 3rem;"></i>
+            </div>
+            <p class="dropzone-title">Upload Document to Check</p>
+            <p class="dropzone-sub">TXT, PDF, DOCX · Not saved after analysis</p>
+            <button class="btn btn-outline" type="button" id="cmpBrowseBtn">
+              <i class="bi bi-folder2-open"></i> Browse Files
+            </button>
+            <input type="file" id="cmpFileInput" hidden accept=".txt,.pdf,.docx,.doc">
+          </div>
+
+          <div class="file-selected" id="cmpFileSelected" hidden>
+            <div class="file-chip">
+              <i class="bi bi-file-earmark-text"></i>
+              <span id="cmpFileName"></span>
+              <button type="button" id="cmpRemoveFile" aria-label="Remove file">&times;</button>
+            </div>
+          </div>
+
+          <div class="action-row" style="margin-top: 24px;">
+            <button class="btn btn-primary btn-lg" type="button" id="cmpBtn" style="flex: 1;">
+              <i class="bi bi-search"></i> Compare to Original
+            </button>
+          </div>
+
+          <div class="progress-wrap" id="cmpLoading" hidden>
+            <div class="progress-track"><div class="progress-fill" style="width: 0%"></div></div>
+            <p class="progress-label">Comparing documents…</p>
+          </div>
+          <p class="error-banner" id="cmpError" hidden></p>
+
+          <!-- Results Card -->
+          <div class="result-card" id="cmpResult" hidden data-aos="fade-up">
+            <div class="result-ring-wrap">
+              <div class="result-ring">
+                <svg viewBox="0 0 140 140">
+                  <circle class="ring-bg" cx="70" cy="70" r="62"></circle>
+                  <circle class="ring-fill" id="cmpRing" cx="70" cy="70" r="62"></circle>
+                </svg>
+                <div class="ring-label">
+                  <strong id="cmpPct">0%</strong>
+                  <span>Similarity</span>
+                </div>
+              </div>
+            </div>
+            <div class="result-metrics">
+              <div class="metric">
+                <span class="metric-label">TF-IDF Cosine</span>
+                <span class="metric-value" id="cmpTfidf">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Token Overlap</span>
+                <span class="metric-value" id="cmpToken">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Shingle (3-gram)</span>
+                <span class="metric-value" id="cmpShingle">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Char 5-gram</span>
+                <span class="metric-value" id="cmpCharGram">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Sentence Jaccard</span>
+                <span class="metric-value" id="cmpSentJaccard">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Sentence TF-IDF</span>
+                <span class="metric-value" id="cmpSentTfidf">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Matched Passages</span>
+                <span class="metric-value" id="cmpMatches">—</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Original Doc</span>
+                <span class="metric-value" id="cmpOrigName">—</span>
+              </div>
+            </div>
+            <p class="disclaimer" id="cmpMethod"></p>
+            <p class="disclaimer" id="cmpDisclaimer"></p>
+            <div id="passageList" class="passage-list"></div>
+            
+            <!-- Unmatched Content Section -->
+            <div id="unmatchedSection" hidden style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--clr-border);">
+              <h4 style="font-size: 0.95rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--clr-text);">
+                <i class="bi bi-file-text" style="color: var(--clr-primary);"></i> Unique Content Locations (Not Found in Original)
+              </h4>
+              <p class="muted" style="font-size: 0.85rem; margin-bottom: 16px;">The following locations in your submitted document contain content not found in the original reference.</p>
+              <div id="unmatchedList" class="passage-list" style="max-height: 300px; overflow-y: auto;"></div>
+            </div>
+            
+            <div class="action-row" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--clr-border);">
+              <button class="btn btn-outline" type="button" id="downloadReportBtn">
+                <i class="bi bi-download"></i> Download Report
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Profile Modal -->
+  <div class="modal-overlay" id="profileModal" hidden role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="profileModalTitle">Profile / Settings</h2>
+        <button type="button" class="modal-close" id="profileModalClose" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="profile-preview">
+          <div class="profile-avatar-wrap">
+            <span class="user-avatar large" id="profileAvatar">U</span>
+            <label class="avatar-upload-btn" for="profilePictureInput" title="Change photo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span class="sr-only">Upload profile picture</span>
+            </label>
+            <input type="file" id="profilePictureInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+          </div>
+          <div>
+            <p class="profile-email" id="profileEmail">—</p>
+            <p class="profile-provider" id="profileProvider">Signed in with Email</p>
+            <div class="profile-photo-actions">
+              <button type="button" class="btn-text-link" id="profilePictureChoose">Change photo</button>
+              <button type="button" class="btn-text-link danger" id="profilePictureRemove" hidden>Remove photo</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="profileNameInput">Full name</label>
+          <input type="text" id="profileNameInput" maxlength="120" placeholder="Your display name">
+        </div>
+        <div class="input-group">
+          <label for="profilePhoneInput">Phone number</label>
+          <input type="tel" id="profilePhoneInput" maxlength="15" placeholder="10-digit mobile number">
+        </div>
+        <div class="input-group">
+          <label for="profileInstitutionInput">Institution / College</label>
+          <input type="text" id="profileInstitutionInput" maxlength="200" placeholder="e.g. GL Bajaj Institute">
+        </div>
+        <div class="input-group">
+          <label for="profileRoleInput">I am a</label>
+          <select id="profileRoleInput">
+            <option value="">Select role</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher / Faculty</option>
+            <option value="researcher">Researcher</option>
+            <option value="professional">Working Professional</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <p class="profile-hint" id="profileHint">Complete any missing details (especially after Google sign-in). Photo: JPEG, PNG, WebP or GIF.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary" id="profileSaveBtn">Save profile</button>
+          <button type="button" class="btn btn-outline" id="profileCancelBtn">Cancel</button>
+        </div>
+        <p class="login-message" id="profileMessage"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top" tabindex="0">
+    <svg viewBox="0 0 52 52"><circle class="progress-bg" cx="26" cy="26" r="23" fill="none" stroke-width="3"></circle><circle class="progress-ring" cx="26" cy="26" r="23" fill="none" stroke-width="3" stroke-linecap="round"></circle></svg>
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="api.js"></script>
+  <script src="theme.js"></script>
+  <script src="script.js"></script>
+  <script src="plagiarism.js"></script>
+</body>
+</html>

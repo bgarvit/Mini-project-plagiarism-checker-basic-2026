@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PLAGIFY - Advanced plagiarism detection and AI content analysis platform. Compare documents against your registered originals with TF-IDF and Cosine Similarity algorithms.">
+  <title>PLAGIFY — Plagiarism Detection & AI Content Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function(){var t=localStorage.getItem("plagify-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);})();
+  </script>
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader" aria-hidden="true">
+    <div class="preload-ring"><i class="bi bi-shield-check preload-heart"></i></div>
+    <div class="preload-text">LOADING PLAGIFY&hellip;</div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      <a href="index.html" class="hw-logo" aria-label="PLAGIFY Home">
+        <span class="hw-logo-mark"><i class="bi bi-shield-check"></i></span>
+        <span class="hw-logo-text">PLAGI<span class="dot">FY</span></span>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <ul class="nav-hw">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="ai-detection.html" class="nav-link">AI Detection</a></li>
+          <li><a href="plagiarism.html" class="nav-link">Plagiarism Check</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-outline" id="signInBtn">Sign in</a>
+        <div class="user-menu" id="userMenu" hidden>
+          <button type="button" class="user-chip" id="userChip" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" id="userAvatar">U</span>
+            <span class="user-meta">
+              <span class="user-name" id="userName">Account</span>
+              <span class="user-email" id="userEmail"></span>
+            </span>
+            <svg class="user-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="user-dropdown" id="userDropdown" hidden>
+            <button type="button" class="user-dropdown-item" id="profileBtn">Profile / Settings</button>
+            <button type="button" class="user-dropdown-item danger" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="hero-glob blob-a" aria-hidden="true"></div>
+      <div class="hero-glob blob-b" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="hero-content" data-aos="fade-right">
+          <span class="eyebrow"><i class="bi bi-stars"></i> TF-IDF · Cosine Similarity · Jaccard Analysis</span>
+          <h1 id="hero-title" class="hero-title">Detect plagiarism with <span class="accent-word"><svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M2 10 Q 50 2 100 8 T 198 6" stroke="var(--clr-primary)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> precision. Verify originality with <span class="accent-word"><svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M2 10 Q 50 2 100 8 T 198 6" stroke="var(--clr-primary)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span> confidence.</h1>
+          <p class="hero-lead">PLAGIFY compares your documents exclusively against your registered original references — not the open web. Powered by TF-IDF vectorization, Cosine Similarity, and multi-layer Jaccard analysis for transparent similarity scoring.</p>
+          <div class="hero-cta">
+            <a href="plagiarism.html" class="btn btn-primary btn-lg">Check Plagiarism <i class="bi bi-arrow-right"></i></a>
+            <a href="ai-detection.html" class="btn btn-outline btn-lg"><i class="bi bi-cpu"></i> Detect AI Content</a>
+          </div>
+          <div class="hero-trust">
+            <div class="hero-trust-text">
+              <strong>Compare against your own originals</strong>
+              <span>Built for researchers, students, and professionals</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-media" data-aos="fade-left" data-aos-delay="120">
+          <div class="hero-media-frame">
+            <svg class="dashboard-illustration" viewBox="0 0 400 450" preserveAspectRatio="xMidYMid meet" aria-label="PLAGIFY dashboard illustration">
+              <!-- Dashboard background -->
+              <rect x="20" y="20" width="360" height="410" rx="16" fill="var(--clr-surface)" stroke="var(--clr-border)" stroke-width="1"/>
+              <!-- Header bar -->
+              <rect x="20" y="20" width="360" height="50" rx="16" fill="var(--clr-bg)"/>
+              <text x="40" y="52" font-family="Poppins" font-size="14" font-weight="600" fill="var(--clr-text)">PLAGIFY Dashboard</text>
+              <!-- Document cards -->
+              <rect x="40" y="90" width="150" height="120" rx="12" fill="var(--clr-primary-light)" stroke="var(--clr-primary)" stroke-width="1.5"/>
+              <text x="55" y="130" font-family="Poppins" font-size="12" font-weight="600" fill="var(--clr-primary)">Original Doc</text>
+              <text x="55" y="155" font-family="Nunito Sans" font-size="10" fill="var(--clr-text-muted)">research_paper.pdf</text>
+              <text x="55" y="175" font-family="Nunito Sans" font-size="10" fill="var(--clr-text-muted)">2,450 words</text>
+              <rect x="210" y="90" width="150" height="120" rx="12" fill="var(--clr-secondary-light)" stroke="var(--clr-secondary)" stroke-width="1.5"/>
+              <text x="225" y="130" font-family="Poppins" font-size="12" font-weight="600" fill="var(--clr-secondary)">Compare Doc</text>
+              <text x="225" y="155" font-family="Nunito Sans" font-size="10" fill="var(--clr-text-muted)">submission_v2.pdf</text>
+              <text x="225" y="175" font-family="Nunito Sans" font-size="10" fill="var(--clr-text-muted)">1,890 words</text>
+              <!-- Results ring -->
+              <circle cx="200" cy="300" r="55" fill="none" stroke="var(--clr-border)" stroke-width="8"/>
+              <circle cx="200" cy="300" r="55" fill="none" stroke="var(--clr-primary)" stroke-width="8" stroke-linecap="round" stroke-dasharray="345" stroke-dashoffset="80" transform="rotate(-90 200 300)"/>
+              <text x="200" y="295" text-anchor="middle" font-family="Poppins" font-size="18" font-weight="800" fill="var(--clr-text)">Score</text>
+              <text x="200" y="320" text-anchor="middle" font-family="Nunito Sans" font-size="11" fill="var(--clr-text-muted)">Similarity</text>
+              <!-- Metric cards -->
+              <rect x="40" y="370" width="100" height="50" rx="8" fill="var(--clr-bg)"/>
+              <text x="90" y="392" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="var(--clr-primary)">TF-IDF</text>
+              <text x="90" y="408" text-anchor="middle" font-family="Nunito Sans" font-size="9" fill="var(--clr-text-muted)">TF-IDF</text>
+              <rect x="155" y="370" width="100" height="50" rx="8" fill="var(--clr-bg)"/>
+              <text x="205" y="392" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="var(--clr-secondary)">Jaccard</text>
+              <text x="205" y="408" text-anchor="middle" font-family="Nunito Sans" font-size="9" fill="var(--clr-text-muted)">Jaccard</text>
+              <rect x="270" y="370" width="100" height="50" rx="8" fill="var(--clr-bg)"/>
+              <text x="320" y="392" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="700" fill="var(--clr-primary)">Shingle</text>
+              <text x="320" y="408" text-anchor="middle" font-family="Nunito Sans" font-size="9" fill="var(--clr-text-muted)">Shingle</text>
+            </svg>
+          </div><div class="fc-label">Avg. Analysis Time</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Why PLAGIFY -->
+    <section class="section-pad" id="about">
+      <div class="container about-card">
+        <div class="row align-items-center g-5" style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
+          <div data-aos="fade-right">
+            <div class="about-collage">
+              <div class="about-badge">
+                <div class="ab-ring"><span>6</span></div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem; font-family: var(--font-display);">Algorithms Combined</div>
+                  <div style="font-size: 0.78rem; color: var(--clr-text-muted);">TF-IDF + 5 Jaccard Layers</div>
+                </div>
+              </div>
+              <div class="img-a">
+                <svg class="illustration-placeholder" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet" aria-label="Document analysis visualization">
+                  <rect x="0" y="0" width="400" height="320" rx="12" fill="var(--clr-primary-light)"/>
+                  <circle cx="120" cy="80" r="35" fill="var(--clr-primary)" opacity="0.3"/>
+                  <rect x="240" y="140" width="100" height="120" rx="8" fill="var(--clr-surface)" stroke="var(--clr-primary)" stroke-width="2"/>
+                  <line x1="255" y1="160" x2="325" y2="160" stroke="var(--clr-text-muted)" stroke-width="2" stroke-dasharray="4 4"/>
+                  <line x1="255" y1="185" x2="300" y2="185" stroke="var(--clr-text-muted)" stroke-width="2" stroke-dasharray="4 4"/>
+                  <line x1="255" y1="210" x2="315" y2="210" stroke="var(--clr-primary)" stroke-width="2"/>
+                  <path d="M80 220 L150 180 L200 210 L260 170 L320 190" stroke="var(--clr-primary)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="80" cy="220" r="4" fill="var(--clr-primary)"/>
+                  <circle cx="150" cy="180" r="4" fill="var(--clr-primary)"/>
+                  <circle cx="200" cy="210" r="4" fill="var(--clr-primary)"/>
+                  <circle cx="260" cy="170" r="4" fill="var(--clr-primary)"/>
+                  <circle cx="320" cy="190" r="4" fill="var(--clr-primary)"/>
+                  <text x="50" y="280" font-family="Poppins" font-size="12" font-weight="600" fill="var(--clr-primary)">Document Pipeline</text>
+                </svg>
+              </div>
+              <div class="img-b">
+                <svg class="illustration-placeholder" viewBox="0 0 280 280" preserveAspectRatio="xMidYMid meet" aria-label="Similarity matching detail">
+                  <rect x="0" y="0" width="280" height="280" rx="12" fill="var(--clr-secondary-light)"/>
+                  <circle cx="140" cy="140" r="80" fill="none" stroke="var(--clr-secondary)" stroke-width="3" stroke-dasharray="8 4"/>
+                  <circle cx="140" cy="140" r="40" fill="var(--clr-secondary)" opacity="0.2"/>
+                  <circle cx="140" cy="140" r="20" fill="var(--clr-secondary)" opacity="0.4"/>
+                  <text x="140" y="146" text-anchor="middle" font-family="Poppins" font-size="18" font-weight="700" fill="var(--clr-secondary)">Score</text>
+                  <text x="140" y="170" text-anchor="middle" font-family="Nunito Sans" font-size="10" fill="var(--clr-text-muted)">Match Score</text>
+                  <g stroke="var(--clr-secondary)" stroke-width="2">
+                    <line x1="140" y1="60" x2="140" y2="90"/>
+                    <line x1="140" y1="190" x2="140" y2="220"/>
+                    <line x1="60" y1="140" x2="90" y2="140"/>
+                    <line x1="190" y1="140" x2="220" y2="140"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div data-aos="fade-left">
+            <span class="eyebrow"><i class="bi bi-flag-fill"></i> Our Approach</span>
+            <h2 class="section-title" style="font-size: clamp(1.7rem, 3vw, 2.4rem); margin-top: 16px; margin-bottom: 16px;">We believe originality verification works best when it's traceable and transparent.</h2>
+            <p class="section-sub">PLAGIFY started as a research project and has grown into a privacy-first platform for document similarity analysis — without ever searching the open web or storing your comparison documents.</p>
+            <ul class="about-list">
+              <li><span class="ic"><i class="bi bi-eye-fill"></i></span><div><strong>Private Comparison</strong><div style="font-size: 0.85rem; color: var(--clr-text-muted);">Documents compared only against your registered originals — never the internet.</div></div></li>
+              <li><span class="ic"><i class="bi bi-patch-check-fill"></i></span><div><strong>Multi-Algorithm Accuracy</strong><div style="font-size: 0.85rem; color: var(--clr-text-muted);">TF-IDF Cosine Similarity + 5 Jaccard layers for comprehensive overlap detection.</div></div></li>
+              <li><span class="ic"><i class="bi bi-shield-lock-fill"></i></span><div><strong>Zero Retention Policy</strong><div style="font-size: 0.85rem; color: var(--clr-text-muted);">Submitted documents processed in memory only. Only your originals are stored.</div></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features / Algorithm Details -->
+    <section class="section-pad" id="features" style="background: var(--clr-surface);">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <span class="eyebrow"><i class="bi bi-code"></i> Algorithm Transparency</span>
+          <h2 class="section-title">How we measure similarity</h2>
+          <p class="section-sub">PLAGIFY uses a weighted ensemble of proven algorithms. Each serves a specific purpose in detecting different types of overlap.</p>
+        </div>
+        <div class="algo-grid">
+          <div class="algo-card" data-aos="fade-up">
+            <h3>TF-IDF + Cosine Similarity <span class="muted">(40% weight)</span></h3>
+            <ul>
+              <li>Unigram + bigram TF-IDF vectorization</li>
+              <li>Sublinear term frequency scaling</li>
+              <li>L2-normalized cosine similarity</li>
+              <li>Robust to document length differences</li>
+            </ul>
+          </div>
+          <div class="algo-card secondary" data-aos="fade-up" data-aos-delay="80">
+            <h3>Token Jaccard <span class="muted">(15% weight)</span></h3>
+            <ul>
+              <li>Set intersection over union</li>
+              <li>Stopwords removed, lemmatized</li>
+              <li>Exact word matching</li>
+              <li>Fast baseline metric</li>
+            </ul>
+          </div>
+          <div class="algo-card accent" data-aos="fade-up" data-aos-delay="160">
+            <h3>Shingle Jaccard (3-gram) <span class="muted">(15% weight)</span></h3>
+            <ul>
+              <li>Consecutive 3-word sequences</li>
+              <li>Catches copied phrases</li>
+              <li>Resistant to word reordering</li>
+              <li>Standard in plagiarism detection</li>
+            </ul>
+          </div>
+          <div class="algo-card info" data-aos="fade-up">
+            <h3>Char 5-gram Jaccard <span class="muted">(10% weight)</span></h3>
+            <ul>
+              <li>Overlapping 5-character windows</li>
+              <li>Catches typos & partial edits</li>
+              <li>Language-agnostic</li>
+              <li>Detects obfuscation attempts</li>
+            </ul>
+          </div>
+          <div class="algo-card purple" data-aos="fade-up" data-aos-delay="80">
+            <h3>Sentence Jaccard <span class="muted">(10% weight)</span></h3>
+            <ul>
+              <li>Best-match per submitted sentence</li>
+              <li>NLTK sentence segmentation</li>
+              <li>Structural similarity</li>
+              <li>Paragraph-level detection</li>
+            </ul>
+          </div>
+          <div class="algo-card green" data-aos="fade-up" data-aos-delay="160">
+            <h3>Sentence TF-IDF <span class="muted">(10% weight)</span></h3>
+            <ul>
+              <li>TF-IDF vectors per sentence</li>
+              <li>Cosine similarity matching</li>
+              <li>Catches paraphrased content</li>
+              <li>Algorithm-tagged passages</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section-pad" id="how" style="background: var(--clr-bg);">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <span class="eyebrow"><i class="bi bi-signpost-split-fill"></i> Simple Process</span>
+          <h2 class="section-title">How your document gets analyzed</h2>
+        </div>
+        <div class="hiw-wrap">
+          <div class="hiw-line" aria-hidden="true"></div>
+          <div class="hiw-steps">
+            <div class="hiw-step" data-aos="fade-up">
+              <div class="hiw-num">1</div>
+              <h5>Register Original</h5>
+              <p class="text-muted">Upload your reference document (TXT, PDF, DOCX). We extract and index text using TF-IDF vectorization for semantic comparison.</p>
+            </div>
+            <div class="hiw-step" data-aos="fade-up" data-aos-delay="120">
+              <div class="hiw-num">2</div>
+              <h5>Submit for Check</h5>
+              <p class="text-muted">Upload a document to analyze. Our engine compares it against your original using Cosine Similarity and Jaccard coefficients at multiple levels.</p>
+            </div>
+            <div class="hiw-step" data-aos="fade-up" data-aos-delay="240">
+              <div class="hiw-num">3</div>
+              <h5>Review Results</h5>
+              <p class="text-muted">Get similarity percentage, matched passages with side-by-side comparison, and breakdown by algorithm. No internet search — just your documents.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool Choice Cards -->
+    <section class="section-pad" id="tools" style="background: var(--clr-surface);">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <span class="eyebrow"><i class="bi bi-grid"></i> Detection Tools</span>
+          <h2 class="section-title">Two specialized engines, one platform</h2>
+        </div>
+        <div class="tool-choice-grid">
+          <a href="ai-detection.html" class="choice-card ai-card" data-aos="fade-up">
+            <div class="choice-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <h2>AI Detection</h2>
+            <p>Analyze text or documents to estimate AI-generated content probability. Supports multiple providers (lmscan, GPTZero, Sapling) with clear confidence scores and limitations disclosure.</p>
+            <span class="choice-cta">Open AI Detector <i class="bi bi-arrow-right"></i></span>
+          </a>
+          <a href="plagiarism.html" class="choice-card plagiarism-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="choice-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div>
+            <h2>Plagiarism Check</h2>
+            <p>Compare a document against your registered original reference only. Get similarity percentage, matched passages, and detailed breakdown by TF-IDF, Cosine Similarity, and Jaccard metrics.</p>
+            <span class="choice-cta">Open Plagiarism Checker <i class="bi bi-arrow-right"></i></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="section-pad" id="cta">
+      <div class="container">
+        <div class="cta-banner" data-aos="zoom-in">
+          <i class="bi bi-shield-check" style="font-size: 2.4rem;"></i>
+          <h2 class="mt-3">Your document's originality matters. Verify it with confidence.</h2>
+          <p class="mb-4" style="opacity:.92;">Every check, however small, moves academic integrity forward today.</p>
+          <a href="plagiarism.html" class="btn-cta"><i class="bi bi-shield-check me-2"></i>Start Free Check</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <svg class="footer-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="var(--clr-footer-bg)" d="M0,32 C240,70 480,0 720,18 C960,36 1200,70 1440,26 L1440,70 L0,70 Z"></path>
+      </svg>
+      <div class="footer-glob footer-glow" aria-hidden="true"></div>
+      <div class="footer-glob footer-glow-2" aria-hidden="true"></div>
+      <div class="container footer-top">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a class="hw-logo" href="index.html">
+              <span class="hw-logo-mark"><i class="bi bi-shield-check"></i></span>
+              <span class="hw-logo-text">PLAGI<span class="dot">FY</span></span>
+            </a>
+            <p class="mt-3">Advanced plagiarism detection and AI content analysis using TF-IDF, Cosine Similarity, and multi-layer Jaccard analysis. Privacy-first design for researchers, educators, and professionals.</p>
+            <div class="footer-social mt-3">
+              <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+              <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" aria-label="Email"><i class="bi bi-envelope"></i></a>
+            </div>
+            <div class="footer-badges" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px;">
+              <span class="footer-badge" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-pill); padding: 8px 16px; font-size: 0.78rem; color: #cbd5e1;"><i class="bi bi-patch-check-fill" style="color: var(--clr-secondary);"></i> Privacy First</span>
+              <span class="footer-badge" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-pill); padding: 8px 16px; font-size: 0.78rem; color: #cbd5e1;"><i class="bi bi-shield-lock-fill" style="color: var(--clr-secondary);"></i> SSL Secured</span>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3 col-lg-2">
+            <h6>Product</h6>
+            <ul>
+              <li><a href="plagiarism.html" class="footer-link"><i class="bi bi-caret-right-fill"></i>Plagiarism Checker</a></li>
+              <li><a href="ai-detection.html" class="footer-link"><i class="bi bi-caret-right-fill"></i>AI Detection</a></li>
+              <li><a href="login.html" class="footer-link"><i class="bi bi-caret-right-fill"></i>Sign In</a></li>
+              <li><a href="registration.html" class="footer-link"><i class="bi bi-caret-right-fill"></i>Create Account</a></li>
+            </ul>
+          </div>
+
+          <div class="col-6 col-md-3 col-lg-2">
+            <h6>Resources</h6>
+            <ul>
+              <li><a href="#" class="footer-link"><i class="bi bi-caret-right-fill"></i>Documentation</a></li>
+              <li><a href="#" class="footer-link"><i class="bi bi-caret-right-fill"></i>API Reference</a></li>
+              <li><a href="#" class="footer-link"><i class="bi bi-caret-right-fill"></i>Methodology</a></li>
+              <li><a href="#" class="footer-link"><i class="bi bi-caret-right-fill"></i>FAQ</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <h6>Get In Touch</h6>
+            <div class="footer-contact-item" style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px;">
+              <span class="ic" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: rgba(13, 148, 136, 0.14); color: var(--clr-primary); display: flex; align-items: center; justify-content: center; font-size: 0.95rem;"><i class="bi bi-geo-alt-fill"></i></span>
+              <span>Available worldwide via web</span>
+            </div>
+            <div class="footer-contact-item" style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px;">
+              <span class="ic" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px; background: rgba(13, 148, 136, 0.14); color: var(--clr-primary); display: flex; align-items: center; justify-content: center; font-size: 0.95rem;"><i class="bi bi-envelope-fill"></i></span>
+              <span><a href="mailto:plagify4u@gmail.com" style="color: var(--clr-primary); font-weight: 600;">plagify4u@gmail.com</a></span>
+            </div>
+            <h6 class="mt-4">Newsletter</h6>
+            <div class="newsletter-input" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-pill); padding: 6px 6px 6px 18px; color: #fff; display: flex; align-items: center;">
+              <input type="email" placeholder="Your email address" aria-label="Email for newsletter" style="background: transparent; border: none; color: #fff; flex: 1; outline: 0; font-size: 0.9rem;">
+              <button type="button" aria-label="Subscribe" style="background: var(--clr-primary); border: none; color: #fff; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s var(--ease);"><i class="bi bi-arrow-right"></i></button>
+            </div>
+            <div class="newsletter-note" style="font-size: 0.76rem; color: #64748b; margin-top: 10px; display: flex; align-items: center; gap: 6px;"><i class="bi bi-shield-check"></i> No spam. Unsubscribe anytime.</div>
+          </div>
+        </div>
+
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+          <div>
+            <div>&copy; 2026 PLAGIFY. Similarity analysis for document originality verification.</div>
+            <div class="footer-bottom-links" style="margin-top: 16px;">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+              <a href="#">Cookie Policy</a>
+              <a href="#">FAQs</a>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div class="footer-payments" style="justify-content: flex-end; margin-bottom: 8px;">
+              <i class="bi bi-credit-card-2-front" title="Cards accepted"></i>
+              <i class="bi bi-paypal" title="PayPal accepted"></i>
+              <i class="bi bi-google" title="Google Pay accepted"></i>
+              <i class="bi bi-apple" title="Apple Pay accepted"></i>
+            </div>
+            <div>Made with <i class="bi bi-heart-fill" style="color: var(--clr-primary);"></i> for academic integrity</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Profile Modal -->
+  <div class="modal-overlay" id="profileModal" hidden role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="profileModalTitle">Profile / Settings</h2>
+        <button type="button" class="modal-close" id="profileModalClose" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="profile-preview">
+          <div class="profile-avatar-wrap">
+            <span class="user-avatar large" id="profileAvatar">U</span>
+            <label class="avatar-upload-btn" for="profilePictureInput" title="Change photo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span class="sr-only">Upload profile picture</span>
+            </label>
+            <input type="file" id="profilePictureInput" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+          </div>
+          <div>
+            <p class="profile-email" id="profileEmail">—</p>
+            <p class="profile-provider" id="profileProvider">Signed in with Email</p>
+            <div class="profile-photo-actions">
+              <button type="button" class="btn-text-link" id="profilePictureChoose">Change photo</button>
+              <button type="button" class="btn-text-link danger" id="profilePictureRemove" hidden>Remove photo</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="profileNameInput">Full name</label>
+          <input type="text" id="profileNameInput" maxlength="120" placeholder="Your display name">
+        </div>
+        <div class="input-group">
+          <label for="profilePhoneInput">Phone number</label>
+          <input type="tel" id="profilePhoneInput" maxlength="15" placeholder="10-digit mobile number">
+        </div>
+        <div class="input-group">
+          <label for="profileInstitutionInput">Institution / College</label>
+          <input type="text" id="profileInstitutionInput" maxlength="200" placeholder="e.g. GL Bajaj Institute">
+        </div>
+        <div class="input-group">
+          <label for="profileRoleInput">I am a</label>
+          <select id="profileRoleInput">
+            <option value="">Select role</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher / Faculty</option>
+            <option value="researcher">Researcher</option>
+            <option value="professional">Working Professional</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <p class="profile-hint" id="profileHint">Complete any missing details (especially after Google sign-in). Photo: JPEG, PNG, WebP or GIF.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary" id="profileSaveBtn">Save profile</button>
+          <button type="button" class="btn btn-outline" id="profileCancelBtn">Cancel</button>
+        </div>
+        <p class="login-message" id="profileMessage"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Mobile CTA Bar -->
+  <div class="mobile-cta-bar">
+    <a href="plagiarism.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Check Plagiarism <i class="bi bi-shield-check"></i></a>
+  </div>
+
+  <!-- Scroll to Top -->
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top" tabindex="0">
+    <svg viewBox="0 0 52 52"><circle class="progress-bg" cx="26" cy="26" r="23" fill="none" stroke-width="3"></circle><circle class="progress-ring" cx="26" cy="26" r="23" fill="none" stroke-width="3" stroke-linecap="round"></circle></svg>
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="api.js"></script>
+  <script src="theme.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
